@@ -1,0 +1,893 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enigma Solutions — Automation &amp; Systems Consulting</title>
+<meta name="description" content="Enigma Solutions builds automation, CRM infrastructure and AI-powered internal tools for commercial and operations teams. Led by Ayo Fagade, systems and automation engineer.">
+<meta property="og:title" content="Enigma Solutions — Automation &amp; Systems Consulting">
+<meta property="og:description" content="Automation, CRM infrastructure and AI tooling for teams drowning in manual work.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230b0c0f'/><path d='M30 30h40M30 50h28M30 70h40' stroke='%23e8b44a' stroke-width='9' stroke-linecap='round'/></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0c0f;
+  --bg-2:#101218;
+  --panel:#14161d;
+  --panel-2:#191c24;
+  --line:#242833;
+  --line-2:#2f3441;
+  --ink:#eef0f4;
+  --ink-2:#b8bfcc;
+  --ink-3:#7c8494;
+  --gold:#e8b44a;
+  --gold-dim:#8a6a26;
+  --mint:#5fd3a3;
+  --sky:#6aa9f0;
+  --maxw:1120px;
+  --r:14px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(900px 500px at 78% -8%, rgba(232,180,74,.10), transparent 60%),
+                   radial-gradient(700px 460px at 8% 4%, rgba(106,169,240,.07), transparent 62%);
+  background-repeat:no-repeat;
+}
+img,svg{max-width:100%}
+a{color:inherit}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+.mono{font-family:'JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,monospace}
+
+/* nav */
+header.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);
+  background:rgba(11,12,15,.78);border-bottom:1px solid var(--line)}
+.nav-in{display:flex;align-items:center;justify-content:space-between;height:66px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;letter-spacing:-.2px}
+.brand .mark{width:26px;height:26px;border-radius:7px;background:linear-gradient(150deg,var(--gold),#b8811f);
+  display:grid;place-items:center;flex:none}
+.brand .mark span{display:block;width:12px;height:2px;background:#0b0c0f;box-shadow:0 -4px 0 #0b0c0f,0 4px 0 #0b0c0f;border-radius:2px}
+.brand small{display:block;font-weight:400;font-size:11px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;margin-top:-3px}
+nav.links{display:flex;align-items:center;gap:26px}
+nav.links a{color:var(--ink-2);text-decoration:none;font-size:14.5px;font-weight:500}
+nav.links a:hover{color:var(--ink)}
+nav.links a.btn-primary,nav.links a.btn-primary:hover{color:#0b0c0f}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:10px;padding:11px 18px;
+  font-size:14.5px;font-weight:600;text-decoration:none;border:1px solid transparent;cursor:pointer;
+  transition:transform .12s ease, background .15s ease, border-color .15s ease}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--gold);color:#0b0c0f}
+.btn-primary:hover{background:#f1c25f}
+.btn-ghost{border-color:var(--line-2);color:var(--ink);background:transparent}
+.btn-ghost:hover{border-color:#4a5164;background:var(--panel)}
+.menu-toggle{display:none;background:none;border:1px solid var(--line-2);border-radius:9px;color:var(--ink);padding:8px 10px}
+
+/* hero */
+.hero{padding-top:86px;padding-bottom:64px}
+.eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--gold);border:1px solid rgba(232,180,74,.28);background:rgba(232,180,74,.07);
+  padding:6px 13px;border-radius:999px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--mint);box-shadow:0 0 0 3px rgba(95,211,163,.16)}
+h1{font-size:clamp(34px,5.4vw,58px);line-height:1.06;letter-spacing:-2px;margin:22px 0 0;font-weight:700;max-width:16ch}
+h1 em{font-style:normal;color:var(--gold)}
+.lede{margin:22px 0 0;font-size:clamp(16.5px,1.6vw,19px);line-height:1.62;color:var(--ink-2);max-width:62ch}
+.lede strong{color:var(--ink);font-weight:600}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.hero-meta{margin-top:18px;font-size:13.5px;color:var(--ink-3)}
+
+/* stat band */
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:var(--line);
+  border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:52px}
+.stats div{background:var(--bg-2);padding:20px 14px;text-align:center}
+.stats b{display:block;font-size:24px;letter-spacing:-1px;font-weight:700}
+.stats span{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-top:5px}
+
+/* sections */
+section{padding:76px 0;border-top:1px solid var(--line)}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:36px;flex-wrap:wrap}
+.kicker{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
+h2{font-size:clamp(26px,3.4vw,36px);line-height:1.14;letter-spacing:-1.1px;margin:10px 0 0;font-weight:700;max-width:20ch}
+.sec-head p{margin:0;color:var(--ink-2);max-width:46ch;font-size:15.5px}
+
+/* work cards */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;
+  display:flex;flex-direction:column;text-decoration:none;color:inherit;
+  transition:border-color .18s ease, transform .18s ease, background .18s ease}
+.card:hover{border-color:var(--line-2);transform:translateY(-3px);background:var(--panel-2)}
+.card .shot{background:var(--bg-2);border-bottom:1px solid var(--line);padding:18px;display:block}
+.card .body{padding:20px 22px 22px}
+.tag{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+.card h3{margin:9px 0 8px;font-size:19.5px;letter-spacing:-.4px;line-height:1.25}
+.card p{margin:0;color:var(--ink-2);font-size:14.5px;line-height:1.55}
+.card .metrics{display:flex;gap:16px;flex-wrap:wrap;margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+.card .metrics span{font-size:12.5px;color:var(--ink-3)}
+.card .metrics b{color:var(--ink);font-weight:600}
+.more{display:inline-flex;align-items:center;gap:7px;margin-top:16px;font-size:13.5px;font-weight:600;color:var(--gold)}
+.card:hover .more .arr{transform:translateX(3px)}
+.arr{transition:transform .18s ease}
+
+/* services */
+.svc{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.svc article{background:var(--bg-2);padding:28px 26px}
+.svc .n{font-size:12px;color:var(--gold)}
+.svc h3{margin:12px 0 9px;font-size:19px;letter-spacing:-.4px}
+.svc p{margin:0 0 14px;color:var(--ink-2);font-size:14.5px}
+.svc ul{margin:0;padding-left:17px;color:var(--ink-3);font-size:13.5px}
+.svc li{margin-bottom:5px}
+
+/* process */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.step{border-left:2px solid var(--line-2);padding:2px 0 2px 18px}
+.step b{display:block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:9px}
+.step h4{margin:0 0 7px;font-size:17px;letter-spacing:-.3px}
+.step p{margin:0;color:var(--ink-2);font-size:14px;line-height:1.55}
+
+/* about */
+.about{display:grid;grid-template-columns:1.15fr .85fr;gap:44px;align-items:start}
+.about p{color:var(--ink-2);font-size:16px}
+.about p strong{color:var(--ink)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.chip{font-size:12.5px;border:1px solid var(--line-2);border-radius:999px;padding:6px 12px;color:var(--ink-2);background:var(--panel)}
+.facts{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:24px}
+.facts h4{margin:0 0 14px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3)}
+.facts dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:11px 16px;font-size:14.5px}
+.facts dt{color:var(--ink-3)}
+.facts dd{margin:0;color:var(--ink);text-align:right}
+
+/* contact */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:44px;align-items:start}
+form{display:grid;gap:14px}
+label{display:block;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:7px}
+input,textarea,select{width:100%;background:var(--panel);border:1px solid var(--line-2);border-radius:10px;
+  padding:12px 14px;color:var(--ink);font:inherit;font-size:15px}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px rgba(232,180,74,.14)}
+textarea{min-height:130px;resize:vertical}
+.form-note{font-size:13px;color:var(--ink-3);margin:0}
+.status{font-size:14px;margin:0;min-height:20px}
+.status.ok{color:var(--mint)}
+.status.err{color:#f0846a}
+.contact-side .line{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);font-size:15px}
+.contact-side .line span{color:var(--ink-3)}
+.contact-side .line a{color:var(--ink);text-decoration:none;border-bottom:1px solid var(--line-2)}
+.contact-side .line a:hover{border-color:var(--gold);color:var(--gold)}
+
+footer{border-top:1px solid var(--line);padding:34px 0 46px;color:var(--ink-3);font-size:13.5px}
+.foot-in{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+
+/* case study view */
+#case{display:none;padding:44px 0 90px}
+#case.on{display:block}
+body.case-open #home{display:none}
+.back{display:inline-flex;align-items:center;gap:8px;color:var(--ink-2);text-decoration:none;font-size:14px;
+  border:1px solid var(--line-2);border-radius:9px;padding:8px 14px}
+.back:hover{color:var(--ink);border-color:#4a5164}
+.case-hero{margin-top:30px;max-width:64ch}
+.case-hero h1{font-size:clamp(30px,4.4vw,46px);max-width:20ch}
+.case-hero .lede{font-size:18px}
+.case-facts{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);
+  border-radius:var(--r);overflow:hidden;margin:34px 0}
+.case-facts div{background:var(--bg-2);padding:18px 16px}
+.case-facts b{display:block;font-size:19px;letter-spacing:-.5px}
+.case-facts span{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-top:5px}
+.case-body{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:12px}
+.case-body h3{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 12px}
+.case-body p{margin:0 0 14px;color:var(--ink-2);font-size:15.5px}
+.case-body ul{margin:0;padding-left:18px;color:var(--ink-2);font-size:15px}
+.case-body li{margin-bottom:8px}
+.shot-frame{background:var(--bg-2);border:1px solid var(--line);border-radius:var(--r);padding:20px;margin:34px 0 10px}
+.shot-cap{font-size:12.5px;color:var(--ink-3);margin:0 0 0 2px}
+.stack{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.next-case{margin-top:56px;padding-top:32px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+
+@media (max-width:900px){
+  .grid,.svc,.about,.contact-grid,.case-body{grid-template-columns:1fr}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .stats{grid-template-columns:repeat(3,1fr)}
+  .case-facts{grid-template-columns:repeat(2,1fr)}
+  .facts dd{text-align:left}
+  nav.links{display:none}
+  nav.links.open{display:flex;position:absolute;top:66px;left:0;right:0;flex-direction:column;align-items:flex-start;
+    gap:0;background:var(--bg-2);border-bottom:1px solid var(--line);padding:8px 24px 18px}
+  nav.links.open a{padding:11px 0;width:100%;border-bottom:1px solid var(--line)}
+  .menu-toggle{display:block}
+  .hero{padding-top:60px;padding-bottom:46px}
+  section{padding:58px 0}
+}
+@media (max-width:520px){
+  .eyebrow{font-size:11px}
+  h1{letter-spacing:-1.2px}
+
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-in">
+    <a class="brand" href="#top" onclick="goHome()">
+      <span class="mark"><span></span></span>
+      <span>Enigma Solutions<small>Automation &amp; systems</small></span>
+    </a>
+    <nav class="links" id="navlinks">
+      <a href="#work" onclick="goHome('work')">Work</a>
+      <a href="#services" onclick="goHome('services')">Services</a>
+      <a href="#process" onclick="goHome('process')">Process</a>
+      <a href="#about" onclick="goHome('about')">About</a>
+      <a class="btn btn-primary" href="#contact" onclick="goHome('contact')">Start a project</a>
+    </nav>
+    <button class="menu-toggle" onclick="document.getElementById('navlinks').classList.toggle('open')" aria-label="Menu">☰</button>
+  </div>
+</header>
+
+<main id="home">
+<a id="top"></a>
+
+<!-- HERO -->
+<div class="wrap hero">
+  <span class="eyebrow"><span class="dot"></span> Available for freelance projects</span>
+  <h1>The manual work in your business is a <em>systems problem</em>.</h1>
+  <p class="lede">I'm Ayo Fagade, a systems and automation engineer. I build the tooling that removes repetitive work from commercial and operations teams: CRM infrastructure, data pipelines, inbox and lead routing, reporting that updates itself, and AI-powered internal tools that hold up under real use. <strong>Most of what I ship replaces a process someone was doing by hand every single day.</strong> I work end to end, from the first discovery call to handover and documentation, and I build it myself.</p>
+  <div class="hero-cta">
+    <a class="btn btn-primary" href="#contact" onclick="goHome('contact')">Start a project <span class="arr">→</span></a>
+    <a class="btn btn-ghost" href="#work" onclick="goHome('work')">See the work</a>
+  </div>
+  <p class="hero-meta">London, UK · remote across UK &amp; Europe<br>Python · Power Automate · Make.com · HubSpot · REST APIs · LLM APIs · Streamlit</p>
+
+  <div class="stats">
+    <div><b>200k+</b><span>Records migrated</span></div>
+    <div><b>60%</b><span>Duplicates removed</span></div>
+    <div><b>317k+</b><span>Companies matched</span></div>
+    <div><b>36k+</b><span>Contacts cleaned</span></div>
+    <div><b>25-35</b><span>Automations live</span></div>
+    <div><b>2+ hrs</b><span>Saved per day</span></div>
+  </div>
+</div>
+
+<!-- WORK -->
+<section id="work">
+<div class="wrap">
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Selected work</div>
+      <h2>Systems that are still running.</h2>
+    </div>
+    <p>Client and employer names are withheld and every interface shown is an illustrative mockup built for this site. No real data appears anywhere on this page.</p>
+  </div>
+  <div class="grid" id="workgrid"></div>
+</div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+<div class="wrap">
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Services</div>
+      <h2>Four ways I usually get brought in.</h2>
+    </div>
+    <p>Fixed-scope projects with a defined outcome, or ongoing support once the system is live. Whichever way, you get the source, the documentation and the ability to run it without me.</p>
+  </div>
+  <div class="svc">
+    <article>
+      <div class="n mono">01</div>
+      <h3>Automation builds</h3>
+      <p>The repetitive process that eats hours every week, turned into something that runs itself and tells you when it doesn't.</p>
+      <ul>
+        <li>Inbox triage, routing and reply classification</li>
+        <li>Lead capture, enrichment and assignment</li>
+        <li>Approval flows and internal notifications</li>
+        <li>Scheduled reporting and data syncs</li>
+      </ul>
+    </article>
+    <article>
+      <div class="n mono">02</div>
+      <h3>CRM builds &amp; migrations</h3>
+      <p>Moving systems, or fixing the one you have. Migrations done with dedupe and matching built into the move, not bolted on after.</p>
+      <ul>
+        <li>Platform migration with zero data loss</li>
+        <li>Deduplication, fuzzy matching and merge logic</li>
+        <li>Custom objects, cards, actions and properties</li>
+        <li>Reporting architecture and attribution</li>
+      </ul>
+    </article>
+    <article>
+      <div class="n mono">03</div>
+      <h3>Data cleaning at scale</h3>
+      <p>Six-figure record counts, inconsistent formats, half-empty fields. Cleaned properly, with an audit trail and a way back.</p>
+      <ul>
+        <li>Standardisation, validation and enrichment</li>
+        <li>Phone, domain, email and encoding repair</li>
+        <li>Segmentation and classification rules engines</li>
+        <li>Reusable toolkits your team can run themselves</li>
+      </ul>
+    </article>
+    <article>
+      <div class="n mono">04</div>
+      <h3>AI-powered internal tools</h3>
+      <p>LLMs applied where they actually pay for themselves, with structured output so the results are consistent enough to trust in production.</p>
+      <ul>
+        <li>Call notes and documents into structured insight</li>
+        <li>Classification, tagging and summarisation at volume</li>
+        <li>Schema-constrained output and cost controls</li>
+        <li>Human review steps where they matter</li>
+      </ul>
+    </article>
+  </div>
+</div>
+</section>
+
+<!-- PROCESS -->
+<section id="process">
+<div class="wrap">
+  <div class="sec-head">
+    <div>
+      <div class="kicker">How it works</div>
+      <h2>Short engagements, working software.</h2>
+    </div>
+    <p>Most projects run two to six weeks. You see something working in the first week, not a slide deck at the end of the month.</p>
+  </div>
+  <div class="steps">
+    <div class="step"><b>Step 01</b><h4>Discovery</h4><p>A call and a walkthrough of the process as it happens today. I map it, find where the time actually goes, and tell you if automation is the wrong answer.</p></div>
+    <div class="step"><b>Step 02</b><h4>Scope</h4><p>A written scope with the outcome, the integrations involved, what is out of scope and a fixed price. No open-ended hourly drift.</p></div>
+    <div class="step"><b>Step 03</b><h4>Build</h4><p>I build it, in your stack, against your real edge cases. You get a working version early and we iterate on the parts that matter.</p></div>
+    <div class="step"><b>Step 04</b><h4>Handover</h4><p>Documentation, a walkthrough with the people who use it, and monitoring so failures surface loudly. Support after go-live if you want it.</p></div>
+  </div>
+</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+<div class="wrap">
+  <div class="sec-head">
+    <div>
+      <div class="kicker">About</div>
+      <h2>Engineer first, consultant second.</h2>
+    </div>
+  </div>
+  <div class="about">
+    <div>
+      <p>I studied Systems Engineering at Warwick, then took an MSc in Programme &amp; Project Management there, where my dissertation combined Monte Carlo simulation with neural networks to forecast project delays before they happened.</p>
+      <p>Day to day I'm a <strong>Systems &amp; Automation Engineer inside an events and media group</strong>, where I've shipped a live full-stack CRM product used daily by a sales team, migrated 200,000+ records with zero data loss, and built the automation layer sitting under sales, marketing and operations across multiple brands.</p>
+      <p>Enigma Solutions is how I do that work for other people. The difference from a typical agency is that <strong>the person you speak to is the person writing the code</strong>. Nothing gets passed to a junior, nothing gets estimated by someone who has never built it. I'd rather tell you a process doesn't need automating than sell you a project that won't pay for itself.</p>
+      <div class="chips">
+        <span class="chip">Python</span><span class="chip">JavaScript</span><span class="chip">Power Automate</span>
+        <span class="chip">Make.com</span><span class="chip">n8n</span><span class="chip">HubSpot</span>
+        <span class="chip">Dynamics 365</span><span class="chip">REST APIs &amp; webhooks</span>
+        <span class="chip">Serverless functions</span><span class="chip">LLM APIs</span>
+        <span class="chip">Streamlit</span><span class="chip">Power BI</span><span class="chip">Pandas</span>
+      </div>
+    </div>
+    <div class="facts">
+      <h4>At a glance</h4>
+      <dl>
+        <dt>Based</dt><dd>London, UK</dd>
+        <dt>Education</dt><dd>BEng Systems Engineering<br>MSc Programme &amp; Project Mgmt</dd>
+        <dt>Day role</dt><dd>Systems &amp; Automation Engineer</dd>
+        <dt>Certification</dt><dd>APM PFQ BoK 7 (in progress)</dd>
+        <dt>Engagements</dt><dd>Fixed scope, 2-6 weeks</dd>
+        <dt>Remote</dt><dd>UK &amp; Europe</dd>
+      </dl>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+<div class="wrap">
+  <div class="sec-head">
+    <div>
+      <div class="kicker">Contact</div>
+      <h2>Tell me what's eating the hours.</h2>
+    </div>
+    <p>Describe the process, roughly how often it happens and what it touches. I'll come back with whether it's worth automating and what it would take.</p>
+  </div>
+  <div class="contact-grid">
+    <form id="contactForm">
+      <div>
+        <label for="name">Name</label>
+        <input id="name" name="name" required autocomplete="name">
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required autocomplete="email">
+      </div>
+      <div>
+        <label for="topic">What do you need</label>
+        <select id="topic" name="topic">
+          <option>Automation build</option>
+          <option>CRM build or migration</option>
+          <option>Data cleaning at scale</option>
+          <option>AI-powered internal tool</option>
+          <option>Not sure yet</option>
+        </select>
+      </div>
+      <div>
+        <label for="message">The process, in your own words</label>
+        <textarea id="message" name="message" required placeholder="Who does it, how often, which systems it touches, and what happens when it goes wrong."></textarea>
+      </div>
+      <button class="btn btn-primary" type="submit" style="justify-content:center">Send it over <span class="arr">→</span></button>
+      <p class="status" id="formStatus" role="status"></p>
+      <p class="form-note">No newsletter, no automated follow-up sequence. You'll get a reply from me.</p>
+    </form>
+    <div class="contact-side">
+      <div class="line"><span>Email</span><a href="mailto:tannaayo@gmail.com">tannaayo@gmail.com</a></div>
+      <div class="line"><span>LinkedIn</span><a href="https://www.linkedin.com/in/ayo-fagade-aa46841a6/" target="_blank" rel="noopener">ayo-fagade</a></div>
+      <div class="line"><span>Live tool</span><a href="https://ayosdatatoolkit.streamlit.app" target="_blank" rel="noopener">ayosdatatoolkit.streamlit.app</a></div>
+      <div class="line"><span>Location</span><span style="color:var(--ink)">London, UK · remote across UK &amp; EU</span></div>
+      <div class="line" style="border:none"><span>Response</span><span style="color:var(--ink)">Usually within 24 hours</span></div>
+    </div>
+  </div>
+</div>
+</section>
+</main>
+
+<!-- CASE STUDY VIEW -->
+<article id="case"><div class="wrap" id="caseInner"></div></article>
+
+<footer>
+  <div class="wrap foot-in">
+    <div>© <span id="yr"></span> Enigma Solutions · Ayo Fagade</div>
+    <div>All interfaces shown are illustrative mockups. No client or employer data is displayed on this site.</div>
+  </div>
+</footer>
+
+<script>
+/* ---------------------------------------------------------------
+   CONFIG — replace with your Formspree endpoint after you create a
+   free form at formspree.io. Until then the form falls back to
+   opening a pre-filled email in the visitor's mail client.
+   --------------------------------------------------------------- */
+var FORM_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+var CONTACT_EMAIL = "tannaayo@gmail.com";
+
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* ---------------- mock UI screenshots (inline SVG) ---------------- */
+var _uid=0;
+function shotEnrich(h){var gid="g"+(++_uid);return `
+<svg viewBox="0 0 640 ${h||300}" role="img" aria-label="Illustrative mockup of a contact record with a one-click enrichment panel">
+ <defs><linearGradient id="${gid}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e8b44a"/><stop offset="1" stop-color="#b8811f"/></linearGradient></defs>
+ <rect width="640" height="${h||300}" rx="10" fill="#0f1116"/>
+ <rect x="1" y="1" width="638" height="${(h||300)-2}" rx="10" fill="none" stroke="#242833"/>
+ <rect x="0" y="0" width="640" height="34" rx="10" fill="#161922"/><rect x="0" y="24" width="640" height="10" fill="#161922"/>
+ <circle cx="18" cy="17" r="4" fill="#3a4050"/><circle cx="32" cy="17" r="4" fill="#3a4050"/><circle cx="46" cy="17" r="4" fill="#3a4050"/>
+ <rect x="70" y="11" width="150" height="12" rx="6" fill="#242833"/>
+ <!-- left: record -->
+ <rect x="16" y="48" width="330" height="${(h||300)-64}" rx="8" fill="#14161d" stroke="#242833"/>
+ <circle cx="46" cy="80" r="16" fill="#242833"/><text x="46" y="85" font-family="Inter,sans-serif" font-size="12" fill="#7c8494" text-anchor="middle">JD</text>
+ <rect x="72" y="70" width="120" height="10" rx="5" fill="#3b4152"/>
+ <rect x="72" y="86" width="170" height="8" rx="4" fill="#262b36"/>
+ <g font-family="Inter,sans-serif" font-size="10" fill="#7c8494">
+  <text x="34" y="128">Email</text><text x="34" y="152">Direct dial</text><text x="34" y="176">Mobile</text><text x="34" y="200">Job title</text><text x="34" y="224">Company size</text>
+ </g>
+ <rect x="140" y="119" width="180" height="9" rx="4" fill="#2d3341"/>
+ <rect x="140" y="143" width="120" height="9" rx="4" fill="#5fd3a3" opacity=".55"/>
+ <rect x="140" y="167" width="140" height="9" rx="4" fill="#5fd3a3" opacity=".55"/>
+ <rect x="140" y="191" width="160" height="9" rx="4" fill="#5fd3a3" opacity=".55"/>
+ <rect x="140" y="215" width="90" height="9" rx="4" fill="#5fd3a3" opacity=".55"/>
+ <text x="34" y="252" font-family="JetBrains Mono,monospace" font-size="9" fill="#5fd3a3">4 fields written back · audit logged</text>
+ <!-- right: panel -->
+ <rect x="360" y="48" width="264" height="${(h||300)-64}" rx="8" fill="#14161d" stroke="#2f3441"/>
+ <text x="380" y="72" font-family="Inter,sans-serif" font-size="11" fill="#e8b44a" letter-spacing="1.2">ENRICHMENT</text>
+ <rect x="380" y="86" width="224" height="30" rx="7" fill="url(#${gid})"/>
+ <text x="492" y="105" font-family="Inter,sans-serif" font-size="12" font-weight="600" fill="#0b0c0f" text-anchor="middle">Enrich this contact</text>
+ <g font-family="Inter,sans-serif" font-size="10">
+  <rect x="380" y="130" width="224" height="26" rx="6" fill="#191c24" stroke="#242833"/>
+  <circle cx="394" cy="143" r="4" fill="#5fd3a3"/><text x="406" y="147" fill="#b8bfcc">Provider A</text><text x="592" y="147" fill="#5fd3a3" text-anchor="end">hit</text>
+  <rect x="380" y="162" width="224" height="26" rx="6" fill="#191c24" stroke="#242833"/>
+  <circle cx="394" cy="175" r="4" fill="#3a4050"/><text x="406" y="179" fill="#7c8494">Provider B (fallback)</text><text x="592" y="179" fill="#7c8494" text-anchor="end">idle</text>
+ </g>
+ <text x="380" y="212" font-family="Inter,sans-serif" font-size="10" fill="#7c8494">Credits used this month</text>
+ <rect x="380" y="220" width="224" height="7" rx="4" fill="#242833"/>
+ <rect x="380" y="220" width="126" height="7" rx="4" fill="#e8b44a"/>
+ <text x="380" y="243" font-family="JetBrains Mono,monospace" font-size="9" fill="#7c8494">56 / 100 · over-budget requests need approval</text>
+</svg>`;}
+
+function shotDash(h){return `
+<svg viewBox="0 0 640 ${h||300}" role="img" aria-label="Illustrative mockup of a multi-brand revenue dashboard">
+ <rect width="640" height="${h||300}" rx="10" fill="#0f1116"/>
+ <rect x="1" y="1" width="638" height="${(h||300)-2}" rx="10" fill="none" stroke="#242833"/>
+ <text x="20" y="30" font-family="Inter,sans-serif" font-size="12" fill="#eef0f4" font-weight="600">Revenue intelligence · all brands</text>
+ <text x="620" y="30" font-family="JetBrains Mono,monospace" font-size="9" fill="#7c8494" text-anchor="end">auto-refreshed</text>
+ <g>
+  <rect x="20" y="44" width="146" height="62" rx="8" fill="#14161d" stroke="#242833"/>
+  <text x="34" y="66" font-family="Inter,sans-serif" font-size="9" fill="#7c8494" letter-spacing="1">PIPELINE</text>
+  <text x="34" y="90" font-family="Inter,sans-serif" font-size="20" font-weight="700" fill="#eef0f4">£4.2m</text>
+  <rect x="178" y="44" width="146" height="62" rx="8" fill="#14161d" stroke="#242833"/>
+  <text x="192" y="66" font-family="Inter,sans-serif" font-size="9" fill="#7c8494" letter-spacing="1">WEEK ON WEEK</text>
+  <text x="192" y="90" font-family="Inter,sans-serif" font-size="20" font-weight="700" fill="#5fd3a3">+8.4%</text>
+  <rect x="336" y="44" width="146" height="62" rx="8" fill="#14161d" stroke="#242833"/>
+  <text x="350" y="66" font-family="Inter,sans-serif" font-size="9" fill="#7c8494" letter-spacing="1">DEALS OPEN</text>
+  <text x="350" y="90" font-family="Inter,sans-serif" font-size="20" font-weight="700" fill="#eef0f4">318</text>
+  <rect x="494" y="44" width="126" height="62" rx="8" fill="#14161d" stroke="#242833"/>
+  <text x="508" y="66" font-family="Inter,sans-serif" font-size="9" fill="#7c8494" letter-spacing="1">BRANDS</text>
+  <text x="508" y="90" font-family="Inter,sans-serif" font-size="20" font-weight="700" fill="#eef0f4">5</text>
+ </g>
+ <rect x="20" y="120" width="380" height="${(h||300)-138}" rx="8" fill="#14161d" stroke="#242833"/>
+ <text x="34" y="142" font-family="Inter,sans-serif" font-size="10" fill="#7c8494">Pipeline by brand</text>
+ <g>
+  <rect x="34" y="158" width="60" height="90" rx="4" fill="#e8b44a" opacity=".85"/>
+  <rect x="106" y="182" width="60" height="66" rx="4" fill="#e8b44a" opacity=".6"/>
+  <rect x="178" y="170" width="60" height="78" rx="4" fill="#e8b44a" opacity=".72"/>
+  <rect x="250" y="204" width="60" height="44" rx="4" fill="#e8b44a" opacity=".45"/>
+  <rect x="322" y="196" width="60" height="52" rx="4" fill="#e8b44a" opacity=".52"/>
+  <line x1="34" y1="250" x2="382" y2="250" stroke="#2f3441"/>
+ </g>
+ <rect x="414" y="120" width="206" height="${(h||300)-138}" rx="8" fill="#14161d" stroke="#242833"/>
+ <text x="428" y="142" font-family="Inter,sans-serif" font-size="10" fill="#7c8494">Trend</text>
+ <polyline points="428,224 452,214 476,220 500,196 524,200 548,178 572,166 604,150" fill="none" stroke="#6aa9f0" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+ <circle cx="604" cy="150" r="3.6" fill="#6aa9f0"/>
+ <line x1="428" y1="250" x2="604" y2="250" stroke="#2f3441"/>
+</svg>`;}
+
+function shotDedupe(h){return `
+<svg viewBox="0 0 640 ${h||300}" role="img" aria-label="Illustrative mockup of a deduplication and migration pipeline report">
+ <rect width="640" height="${h||300}" rx="10" fill="#0f1116"/>
+ <rect x="1" y="1" width="638" height="${(h||300)-2}" rx="10" fill="none" stroke="#242833"/>
+ <text x="20" y="30" font-family="Inter,sans-serif" font-size="12" fill="#eef0f4" font-weight="600">Migration run · dedupe report</text>
+ <text x="620" y="30" font-family="JetBrains Mono,monospace" font-size="9" fill="#5fd3a3" text-anchor="end">complete · 0 lost</text>
+ <g font-family="Inter,sans-serif">
+  <rect x="20" y="44" width="290" height="56" rx="8" fill="#14161d" stroke="#242833"/>
+  <text x="34" y="66" font-size="9" fill="#7c8494" letter-spacing="1">SOURCE RECORDS</text>
+  <text x="34" y="88" font-size="19" font-weight="700" fill="#eef0f4">204,918</text>
+  <rect x="330" y="44" width="290" height="56" rx="8" fill="#14161d" stroke="#242833"/>
+  <text x="344" y="66" font-size="9" fill="#7c8494" letter-spacing="1">AFTER MERGE</text>
+  <text x="344" y="88" font-size="19" font-weight="700" fill="#5fd3a3">81,204</text>
+ </g>
+ <text x="20" y="126" font-family="Inter,sans-serif" font-size="10" fill="#7c8494">Match candidates by confidence</text>
+ <g font-family="Inter,sans-serif" font-size="10">
+  <rect x="20" y="138" width="600" height="30" rx="6" fill="#14161d" stroke="#242833"/>
+  <text x="36" y="157" fill="#b8bfcc">j.doe@northwind.example  ·  Northwind Ltd</text>
+  <rect x="470" y="145" width="90" height="6" rx="3" fill="#242833"/><rect x="470" y="145" width="86" height="6" rx="3" fill="#5fd3a3"/>
+  <text x="600" y="157" fill="#5fd3a3" text-anchor="end">0.96</text>
+  <rect x="20" y="174" width="600" height="30" rx="6" fill="#14161d" stroke="#242833"/>
+  <text x="36" y="193" fill="#b8bfcc">jdoe@northwind.example  ·  Northwind Limited</text>
+  <rect x="470" y="181" width="90" height="6" rx="3" fill="#242833"/><rect x="470" y="181" width="79" height="6" rx="3" fill="#5fd3a3"/>
+  <text x="600" y="193" fill="#5fd3a3" text-anchor="end">0.88</text>
+  <rect x="20" y="210" width="600" height="30" rx="6" fill="#14161d" stroke="#242833"/>
+  <text x="36" y="229" fill="#b8bfcc">j.doe@nw-group.example  ·  NW Group</text>
+  <rect x="470" y="217" width="90" height="6" rx="3" fill="#242833"/><rect x="470" y="217" width="46" height="6" rx="3" fill="#e8b44a"/>
+  <text x="600" y="229" fill="#e8b44a" text-anchor="end">0.51</text>
+ </g>
+ <text x="20" y="262" font-family="JetBrains Mono,monospace" font-size="9" fill="#7c8494">above 0.85 auto-merged · 0.5-0.85 queued for review · every merge reversible</text>
+</svg>`;}
+
+function shotRouting(h){return `
+<svg viewBox="0 0 640 ${h||300}" role="img" aria-label="Illustrative mockup of a multilingual inbound routing flow">
+ <rect width="640" height="${h||300}" rx="10" fill="#0f1116"/>
+ <rect x="1" y="1" width="638" height="${(h||300)-2}" rx="10" fill="none" stroke="#242833"/>
+ <text x="20" y="30" font-family="Inter,sans-serif" font-size="12" fill="#eef0f4" font-weight="600">Inbound routing · 8+ language markets</text>
+ <g font-family="Inter,sans-serif" font-size="10">
+  <rect x="20" y="110" width="120" height="66" rx="8" fill="#14161d" stroke="#2f3441"/>
+  <text x="80" y="138" fill="#b8bfcc" text-anchor="middle">Shared inbox</text>
+  <text x="80" y="156" fill="#7c8494" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9">unsorted</text>
+  <path d="M140 143 H196" stroke="#2f3441" stroke-width="1.6"/><path d="M190 139 l6 4 -6 4z" fill="#2f3441"/>
+  <rect x="196" y="98" width="140" height="90" rx="8" fill="#14161d" stroke="#e8b44a" stroke-opacity=".5"/>
+  <text x="266" y="126" fill="#e8b44a" text-anchor="middle" font-size="10" letter-spacing="1">CLASSIFIER</text>
+  <text x="266" y="146" fill="#b8bfcc" text-anchor="middle">language · unit</text>
+  <text x="266" y="162" fill="#b8bfcc" text-anchor="middle">intent · bounce</text>
+  <path d="M336 143 H392" stroke="#2f3441" stroke-width="1.6"/><path d="M386 139 l6 4 -6 4z" fill="#2f3441"/>
+ </g>
+ <g font-family="Inter,sans-serif" font-size="9.5" fill="#b8bfcc">
+  <rect x="392" y="60" width="228" height="26" rx="6" fill="#14161d" stroke="#242833"/><text x="408" y="77">UK &amp; Ireland desk</text><circle cx="600" cy="73" r="3.6" fill="#5fd3a3"/>
+  <rect x="392" y="94" width="228" height="26" rx="6" fill="#14161d" stroke="#242833"/><text x="408" y="111">DACH desk</text><circle cx="600" cy="107" r="3.6" fill="#5fd3a3"/>
+  <rect x="392" y="128" width="228" height="26" rx="6" fill="#14161d" stroke="#242833"/><text x="408" y="145">France &amp; Benelux desk</text><circle cx="600" cy="141" r="3.6" fill="#5fd3a3"/>
+  <rect x="392" y="162" width="228" height="26" rx="6" fill="#14161d" stroke="#242833"/><text x="408" y="179">Iberia &amp; LATAM desk</text><circle cx="600" cy="175" r="3.6" fill="#5fd3a3"/>
+  <rect x="392" y="196" width="228" height="26" rx="6" fill="#14161d" stroke="#242833"/><text x="408" y="213">Nordics desk</text><circle cx="600" cy="209" r="3.6" fill="#5fd3a3"/>
+  <rect x="392" y="230" width="228" height="26" rx="6" fill="#191c24" stroke="#2f3441" stroke-dasharray="3 3"/><text x="408" y="247" fill="#7c8494">Unclassified → human review</text><circle cx="600" cy="243" r="3.6" fill="#e8b44a"/>
+ </g>
+ <text x="20" y="248" font-family="JetBrains Mono,monospace" font-size="9" fill="#5fd3a3">2+ hrs/day returned</text>
+ <text x="20" y="266" font-family="JetBrains Mono,monospace" font-size="9" fill="#7c8494">0 missed leads</text>
+</svg>`;}
+
+function shotToolkit(h){return `
+<svg viewBox="0 0 640 ${h||300}" role="img" aria-label="Illustrative mockup of a no-code data cleaning toolkit">
+ <rect width="640" height="${h||300}" rx="10" fill="#0f1116"/>
+ <rect x="1" y="1" width="638" height="${(h||300)-2}" rx="10" fill="none" stroke="#242833"/>
+ <rect x="0" y="0" width="180" height="${h||300}" rx="10" fill="#14161d"/><rect x="170" y="0" width="10" height="${h||300}" fill="#14161d"/>
+ <line x1="180" y1="0" x2="180" y2="${h||300}" stroke="#242833"/>
+ <text x="20" y="30" font-family="Inter,sans-serif" font-size="11" fill="#e8b44a" letter-spacing="1.1">18 TOOLS</text>
+ <g font-family="Inter,sans-serif" font-size="10" fill="#b8bfcc">
+  <rect x="14" y="44" width="152" height="24" rx="6" fill="#e8b44a" opacity=".16"/><text x="28" y="60" fill="#e8b44a">Deduplicate</text>
+  <text x="28" y="88">Fuzzy match</text><text x="28" y="112">Phone standardiser</text><text x="28" y="136">Domain extractor</text>
+  <text x="28" y="160">Industry mapper</text><text x="28" y="184">Encoding repair</text><text x="28" y="208">Validator</text><text x="28" y="232">Bulk transform</text>
+  <text x="28" y="262" fill="#7c8494" font-size="9">+ 10 more</text>
+ </g>
+ <text x="204" y="30" font-family="Inter,sans-serif" font-size="12" fill="#eef0f4" font-weight="600">Deduplicate</text>
+ <text x="620" y="30" font-family="JetBrains Mono,monospace" font-size="9" fill="#7c8494" text-anchor="end">104,882 rows loaded</text>
+ <g font-family="Inter,sans-serif" font-size="9.5">
+  <rect x="204" y="46" width="416" height="24" rx="5" fill="#191c24"/>
+  <text x="216" y="62" fill="#7c8494">EMAIL</text><text x="356" y="62" fill="#7c8494">COMPANY</text><text x="500" y="62" fill="#7c8494">STATUS</text>
+ </g>
+ <g font-family="Inter,sans-serif" font-size="9.5" fill="#b8bfcc">
+  <rect x="204" y="74" width="416" height="22" fill="#14161d"/><text x="216" y="89">a.smith@acme.example</text><text x="356" y="89">Acme</text><text x="500" y="89" fill="#5fd3a3">kept</text>
+  <rect x="204" y="100" width="416" height="22" fill="#12141a"/><text x="216" y="115">asmith@acme.example</text><text x="356" y="115">Acme Ltd</text><text x="500" y="115" fill="#e8b44a">merged</text>
+  <rect x="204" y="126" width="416" height="22" fill="#14161d"/><text x="216" y="141">r.okafor@vantel.example</text><text x="356" y="141">Vantel</text><text x="500" y="141" fill="#5fd3a3">kept</text>
+  <rect x="204" y="152" width="416" height="22" fill="#12141a"/><text x="216" y="167">r.okafor@vantel.example</text><text x="356" y="167">Vantel Group</text><text x="500" y="167" fill="#e8b44a">merged</text>
+  <rect x="204" y="178" width="416" height="22" fill="#14161d"/><text x="216" y="193">k.lang@brightpath.example</text><text x="356" y="193">Brightpath</text><text x="500" y="193" fill="#5fd3a3">kept</text>
+ </g>
+ <rect x="204" y="216" width="180" height="30" rx="7" fill="#e8b44a"/>
+ <text x="294" y="236" font-family="Inter,sans-serif" font-size="11" font-weight="600" fill="#0b0c0f" text-anchor="middle">Run &amp; download clean file</text>
+ <text x="204" y="266" font-family="JetBrains Mono,monospace" font-size="9" fill="#7c8494">no code · runs in the browser · nothing stored</text>
+</svg>`;}
+
+function shotAgency(h){return `
+<svg viewBox="0 0 640 ${h||300}" role="img" aria-label="Illustrative mockup of an AI-assisted content and outreach pipeline">
+ <rect width="640" height="${h||300}" rx="10" fill="#0f1116"/>
+ <rect x="1" y="1" width="638" height="${(h||300)-2}" rx="10" fill="none" stroke="#242833"/>
+ <text x="20" y="30" font-family="Inter,sans-serif" font-size="12" fill="#eef0f4" font-weight="600">Content &amp; outreach pipeline</text>
+ <g font-family="Inter,sans-serif" font-size="9.5">
+  <rect x="20" y="52" width="112" height="58" rx="8" fill="#14161d" stroke="#242833"/><text x="76" y="78" fill="#b8bfcc" text-anchor="middle">Brief in</text><text x="76" y="94" fill="#7c8494" text-anchor="middle" font-size="8.5">form / inbox</text>
+  <rect x="152" y="52" width="112" height="58" rx="8" fill="#14161d" stroke="#e8b44a" stroke-opacity=".5"/><text x="208" y="78" fill="#e8b44a" text-anchor="middle">Draft</text><text x="208" y="94" fill="#7c8494" text-anchor="middle" font-size="8.5">LLM + house voice</text>
+  <rect x="284" y="52" width="112" height="58" rx="8" fill="#14161d" stroke="#242833"/><text x="340" y="78" fill="#b8bfcc" text-anchor="middle">Human review</text><text x="340" y="94" fill="#7c8494" text-anchor="middle" font-size="8.5">approve / edit</text>
+  <rect x="416" y="52" width="112" height="58" rx="8" fill="#14161d" stroke="#242833"/><text x="472" y="78" fill="#b8bfcc" text-anchor="middle">Schedule</text><text x="472" y="94" fill="#7c8494" text-anchor="middle" font-size="8.5">queue + send</text>
+  <rect x="548" y="52" width="72" height="58" rx="8" fill="#14161d" stroke="#242833"/><text x="584" y="78" fill="#5fd3a3" text-anchor="middle">Log</text><text x="584" y="94" fill="#7c8494" text-anchor="middle" font-size="8.5">CRM</text>
+  <path d="M132 81 H150 M264 81 H282 M396 81 H414 M528 81 H546" stroke="#2f3441" stroke-width="1.6"/>
+ </g>
+ <rect x="20" y="132" width="600" height="${(h||300)-152}" rx="8" fill="#14161d" stroke="#242833"/>
+ <text x="36" y="156" font-family="Inter,sans-serif" font-size="10" fill="#7c8494">Follow-up queue</text>
+ <g font-family="Inter,sans-serif" font-size="9.5" fill="#b8bfcc">
+  <rect x="36" y="168" width="568" height="24" rx="5" fill="#191c24"/><text x="50" y="184">Outlet A · feature pitch</text><text x="560" y="184" fill="#5fd3a3" text-anchor="end">sent · day 0</text>
+  <rect x="36" y="198" width="568" height="24" rx="5" fill="#191c24"/><text x="50" y="214">Outlet B · follow-up 1</text><text x="560" y="214" fill="#e8b44a" text-anchor="end">queued · day 3</text>
+  <rect x="36" y="228" width="568" height="24" rx="5" fill="#191c24"/><text x="50" y="244">Outlet C · reply detected</text><text x="560" y="244" fill="#6aa9f0" text-anchor="end">paused · human</text>
+ </g>
+</svg>`;}
+
+/* ---------------- case study data ---------------- */
+var CASES = [
+ {
+  id:"enrichment",
+  tag:"CRM product · B2B events group",
+  title:"One-click contact enrichment, built inside the CRM",
+  card:"A full internal product living on the contact record: press one button, the system runs a provider waterfall, writes clean data back and logs every credit spent.",
+  cardMetrics:[["10+","daily users"],["~£2k","per seat avoided"],["2","providers, one button"]],
+  shot:shotEnrich,
+  facts:[["10+","Daily users"],["~£2,000","Per-seat cost avoided"],["2","Data providers chained"],["100%","Spend audited"]],
+  problem:"Sales people were leaving the CRM to look up phone numbers and job titles in a separate data platform, copying results back by hand. Every person who needed the data needed their own licence at roughly £2,000 a year, and nobody could see what the credits were being spent on.",
+  approach:[
+   "Custom UI extension on the contact record so enrichment happens where the work already is, with no second tool to open.",
+   "Serverless backend orchestrating a provider waterfall: the primary source runs first, a second provider picks up anything it misses.",
+   "Per-user monthly credit budget with a preview before spend. Anything over budget routes to an approval channel rather than silently failing.",
+   "Results write back to the record automatically, with a full audit trail of who enriched what and what it cost.",
+   "Provider-agnostic design so a new data source can be added without rebuilding the flow."
+  ],
+  result:[
+   "Manual enrichment disappeared from the sales workflow entirely.",
+   "Access scaled to 10+ daily users without buying additional seats at roughly £2,000 each.",
+   "Enrichment spend became visible and controllable for the first time.",
+   "Data quality on new contacts improved because enrichment now happens at the point of entry."
+  ],
+  stack:["Custom UI extension","Serverless functions","REST APIs","Provider waterfall","Approval workflow","Audit logging"]
+ },
+ {
+  id:"migration",
+  tag:"Data engineering · CRM migration",
+  title:"200,000 records moved, 60% of the duplicates gone",
+  card:"A migration where deduplication and fuzzy matching were built into the move itself, so the new system started clean instead of inheriting years of mess.",
+  cardMetrics:[["200k+","records migrated"],["60%","duplicates removed"],["0","records lost"]],
+  shot:shotDedupe,
+  facts:[["200k+","Records migrated"],["60.59%","Duplicate reduction"],["317k+","Companies matched"],["0","Records lost"]],
+  problem:"Years of imports, list buys and manual entry across multiple systems had produced a database where the same person existed three or four times under slightly different emails and company spellings. Reporting could not be trusted and outreach was hitting the same contacts repeatedly.",
+  approach:[
+   "Built a Python pipeline that deduplicated and merged during the migration rather than after it, so nothing dirty landed in the new system.",
+   "Fuzzy matching with confidence scoring: high-confidence pairs merge automatically, borderline pairs queue for human review.",
+   "Company matching across 317,000+ organisations, plus industry mapping to reconcile categories between three different platforms.",
+   "A rules engine that segmented 30,000+ records in a single pass.",
+   "Every merge written with a rollback path, and record counts reconciled at each stage."
+  ],
+  result:[
+   "200,000+ records migrated with zero data loss.",
+   "Duplicates cut by 60.59%, immediately improving reporting accuracy.",
+   "Segmentation and industry data became consistent enough to build campaigns on.",
+   "The matching logic was reused for later imports instead of being a one-off script."
+  ],
+  stack:["Python","Pandas","Fuzzy matching","Confidence scoring","Rules engine","Rollback / audit fields"]
+ },
+ {
+  id:"routing",
+  tag:"Automation · multilingual operations",
+  title:"Inbound mail sorted across 8+ language markets",
+  card:"A classifier sitting in front of a shared inbox, reading every message and sending it to the right desk in the right market, in the language it arrived in.",
+  cardMetrics:[["8+","language markets"],["2+ hrs","saved per day"],["0","missed leads"]],
+  shot:shotRouting,
+  facts:[["8+","Language markets"],["2+ hrs","Saved per day"],["0","Missed leads"],["25-35","Flows in the estate"]],
+  problem:"A single shared inbox took enquiries from more than eight language markets. Someone had to read each message, work out the language and the business unit, and forward it on. Messages sat overnight, some were forwarded twice, and genuine leads got buried under bounces and out-of-office replies.",
+  approach:[
+   "Language and intent classification on every inbound message, including bounce and out-of-office detection in non-English replies.",
+   "Routing rules by language, business unit and destination mailbox, with an explicit fallback queue for anything the classifier is not confident about.",
+   "GDPR unsubscribe handling wired between the mail platform and the CRM, with keyword detection and API updates so opt-outs are honoured immediately.",
+   "Failure alerting so a broken route is loud rather than silent."
+   ],
+  result:[
+   "Over two hours of manual triage returned to the team every day.",
+   "Leads stopped being missed or double-handled.",
+   "Opt-outs processed automatically instead of relying on someone remembering.",
+   "The routing layer became the template for 25 to 35 further automation flows."
+  ],
+  stack:["Power Automate","Classification rules","REST APIs","CRM sync","Alerting"]
+ },
+ {
+  id:"dashboard",
+  tag:"Reporting · multi-brand",
+  title:"One live dashboard across five brands",
+  card:"Executive KPI reporting that builds itself: pipeline, week-on-week movement and historical trend across five separate brands, with no spreadsheet in the loop.",
+  cardMetrics:[["5","brands unified"],["0","manual updates"],["Weekly","auto snapshots"]],
+  shot:shotDash,
+  facts:[["5","Brands unified"],["0","Manual updates"],["Weekly","Pipeline snapshots"],["Live","Executive KPIs"]],
+  problem:"Five brands each reported performance their own way, in their own spreadsheets, on their own schedule. Getting a single view meant someone rebuilding a deck by hand every week, and the numbers were out of date by the time anyone saw them.",
+  approach:[
+   "Custom code inside the CRM pulling and normalising data across all five brands into one shape.",
+   "Automated executive KPI dashboards with week-on-week pipeline movement rather than static point-in-time numbers.",
+   "Historical snapshotting so trend is preserved instead of being overwritten every refresh.",
+   "Chart generation and scheduled distribution so the report arrives without anyone opening a spreadsheet."
+  ],
+  result:[
+   "A single live view across five brands, refreshed with zero manual intervention.",
+   "Weekly reporting effort removed from the team entirely.",
+   "Trend data available for the first time, because history is now stored rather than replaced.",
+   "Leadership decisions made on current numbers instead of last week's."
+  ],
+  stack:["Python (custom code)","Power Automate","REST APIs","QuickChart","Scheduled reporting"]
+ },
+ {
+  id:"toolkit",
+  tag:"Product · live and public",
+  title:"A no-code data toolkit anyone on the team can run",
+  card:"Eighteen data tools in one app: dedupe, fuzzy match, phone and domain standardisation, validation and bulk transforms, handling 100,000+ rows without writing a line of code.",
+  cardMetrics:[["18","tools in one app"],["100k+","rows handled"],["Live","try it now"]],
+  shot:shotToolkit,
+  facts:[["18","Tools in one app"],["100k+","Rows per run"],["0","Lines of code needed"],["Live","Publicly available"]],
+  problem:"Every data task was arriving at one desk. Cleaning a list, splitting a column, fixing broken encoding or spotting duplicates all needed someone technical, which turned five-minute jobs into two-day queues.",
+  approach:[
+   "Bundled the eighteen scripts that kept getting rewritten into a single Python application with a plain interface.",
+   "Covered the recurring jobs: deduplication, domain extraction, email parsing, industry mapping, standardisation, migration prep, fuzzy matching, validation and bulk transforms.",
+   "Built for 100,000+ row files so it does not fall over on a real export.",
+   "Designed for non-technical users end to end: upload, choose the tool, preview, download."
+  ],
+  result:[
+   "Data cleaning stopped being a request and became something the team does itself.",
+   "Turnaround on imports and list prep dropped from days to minutes.",
+   "The same toolkit now underpins migration and matching work on client projects."
+  ],
+  stack:["Python","Pandas","Streamlit","Fuzzy matching","Validation"],
+  link:{href:"https://ayosdatatoolkit.streamlit.app",label:"Open the live toolkit"}
+ },
+ {
+  id:"agency",
+  tag:"Freelance · UK media &amp; PR agency",
+  title:"AI-assisted content and outreach for a media agency",
+  card:"A pipeline that drafts in the agency's own voice, keeps a human in the approval seat, and handles the follow-up sequence that kept getting forgotten.",
+  cardMetrics:[["Make.com","+ Anthropic API"],["Human","approval step"],["Auto","follow-ups"]],
+  shot:shotAgency,
+  facts:[["1","Person-shaped bottleneck removed"],["Human","In the approval seat"],["Auto","Follow-up sequencing"],["Make.com","+ Anthropic API"]],
+  problem:"A small media and PR team was drafting every pitch and every follow-up from scratch, tracking who had been contacted in their heads and in a spreadsheet. Good opportunities lapsed simply because nobody got round to the second email.",
+  approach:[
+   "Briefs come in through a single intake, so there is one place work starts rather than four inboxes.",
+   "LLM drafting tuned to the agency's own voice and formats, producing a first draft rather than a finished send.",
+   "An explicit human review step. Nothing goes out without a person approving it, which is the difference between useful AI and embarrassing AI.",
+   "Automated follow-up sequencing that pauses the moment a real reply is detected.",
+   "Everything logged so the team can see what was sent, to whom and when."
+  ],
+  result:[
+   "Drafting time cut sharply, with the team editing rather than starting from a blank page.",
+   "Follow-ups stopped depending on somebody remembering.",
+   "The agency kept full editorial control, which was the condition for using AI at all."
+  ],
+  stack:["Make.com","Anthropic API","Webhooks","Structured output","CRM logging"]
+ }
+];
+
+/* ---------------- render work grid ---------------- */
+var grid = document.getElementById('workgrid');
+grid.innerHTML = CASES.map(function(c){
+  return '<a class="card" href="#/case/'+c.id+'">'
+    + '<div class="shot">'+c.shot(300)+'</div>'
+    + '<div class="body">'
+    + '<div class="tag">'+c.tag+'</div>'
+    + '<h3>'+c.title+'</h3>'
+    + '<p>'+c.card+'</p>'
+    + '<div class="metrics">'+c.cardMetrics.map(function(m){return '<span><b>'+m[0]+'</b> '+m[1]+'</span>';}).join('')+'</div>'
+    + '<div class="more">Read the case study <span class="arr">→</span></div>'
+    + '</div></a>';
+}).join('');
+
+/* ---------------- case study routing ---------------- */
+function renderCase(c){
+  var i = CASES.indexOf(c);
+  var next = CASES[(i+1) % CASES.length];
+  document.getElementById('caseInner').innerHTML =
+    '<a class="back" href="#work" onclick="goHome(\'work\')">← All work</a>'
+  + '<div class="case-hero"><span class="tag">'+c.tag+'</span>'
+  + '<h1>'+c.title+'</h1><p class="lede">'+c.card+'</p></div>'
+  + '<div class="case-facts">'+c.facts.map(function(f){return '<div><b>'+f[0]+'</b><span>'+f[1]+'</span></div>';}).join('')+'</div>'
+  + '<div class="shot-frame">'+c.shot(300)+'</div>'
+  + '<p class="shot-cap">Illustrative mockup built for this site. Not a real interface, not real data.</p>'
+  + '<div class="case-body" style="margin-top:44px">'
+  + '<div><h3>The problem</h3><p>'+c.problem+'</p>'
+  + '<h3 style="margin-top:28px">What I built</h3><ul>'+c.approach.map(function(a){return '<li>'+a+'</li>';}).join('')+'</ul></div>'
+  + '<div><h3>The outcome</h3><ul>'+c.result.map(function(r){return '<li>'+r+'</li>';}).join('')+'</ul>'
+  + '<h3 style="margin-top:28px">Built with</h3><div class="stack">'+c.stack.map(function(s){return '<span class="chip">'+s+'</span>';}).join('')+'</div>'
+  + (c.link ? '<p style="margin-top:24px"><a class="btn btn-ghost" href="'+c.link.href+'" target="_blank" rel="noopener">'+c.link.label+' ↗</a></p>' : '')
+  + '</div></div>'
+  + '<div class="next-case"><div><div class="kicker">Next case study</div>'
+  + '<h2 style="font-size:24px;margin-top:8px">'+next.title+'</h2></div>'
+  + '<a class="btn btn-primary" href="#/case/'+next.id+'">Read it <span class="arr">→</span></a></div>'
+  + '<div class="next-case" style="border-top:none;padding-top:0;margin-top:36px">'
+  + '<div><h2 style="font-size:24px">Got something like this that still runs on people?</h2></div>'
+  + '<a class="btn btn-ghost" href="#contact" onclick="goHome(\'contact\')">Start a project</a></div>';
+}
+
+function route(){
+  var h = location.hash || '';
+  var m = h.match(/^#\/case\/(.+)$/);
+  var view = document.getElementById('case');
+  if(m){
+    var c = CASES.filter(function(x){return x.id===m[1];})[0];
+    if(c){
+      renderCase(c);
+      document.body.classList.add('case-open');
+      view.classList.add('on');
+      window.scrollTo(0,0);
+      return;
+    }
+  }
+  document.body.classList.remove('case-open');
+  view.classList.remove('on');
+}
+function goHome(anchor){
+  document.getElementById('navlinks').classList.remove('open');
+  if(document.body.classList.contains('case-open')){
+    document.body.classList.remove('case-open');
+    document.getElementById('case').classList.remove('on');
+    if(anchor){
+      setTimeout(function(){
+        var el=document.getElementById(anchor);
+        if(el) el.scrollIntoView({behavior:'smooth'});
+      },10);
+    } else { window.scrollTo(0,0); }
+  }
+}
+window.addEventListener('hashchange', route);
+route();
+
+/* ---------------- contact form ---------------- */
+document.getElementById('contactForm').addEventListener('submit', function(e){
+  e.preventDefault();
+  var f = e.target, s = document.getElementById('formStatus');
+  var data = {
+    name: f.elements['name'].value, email: f.elements['email'].value,
+    topic: f.elements['topic'].value, message: f.elements['message'].value
+  };
+  if(FORM_ENDPOINT.indexOf('YOUR_FORM_ID') > -1){
+    var body = 'Name: '+data.name+'\nEmail: '+data.email+'\nNeed: '+data.topic+'\n\n'+data.message;
+    window.location.href = 'mailto:'+CONTACT_EMAIL+'?subject='+encodeURIComponent('Enigma Solutions enquiry - '+data.topic)+'&body='+encodeURIComponent(body);
+    s.className='status ok';
+    s.textContent = 'Opening your email client. If nothing happens, mail '+CONTACT_EMAIL+' directly.';
+    return;
+  }
+  s.className='status'; s.textContent='Sending...';
+  fetch(FORM_ENDPOINT,{
+    method:'POST',
+    headers:{'Accept':'application/json','Content-Type':'application/json'},
+    body:JSON.stringify(data)
+  }).then(function(r){
+    if(r.ok){ f.reset(); s.className='status ok'; s.textContent='Sent. I\'ll come back to you within 24 hours.'; }
+    else { throw new Error('bad response'); }
+  }).catch(function(){
+    s.className='status err';
+    s.textContent='That didn\'t send. Email '+CONTACT_EMAIL+' and I\'ll pick it up there.';
+  });
+});
+</script>
+</body>
+</html>
