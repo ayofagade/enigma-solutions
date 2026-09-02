@@ -50,9 +50,8 @@ header.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);
   background:rgba(11,12,15,.78);border-bottom:1px solid var(--line)}
 .nav-in{display:flex;align-items:center;justify-content:space-between;height:66px}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;letter-spacing:-.2px}
-.brand .mark{width:26px;height:26px;border-radius:7px;background:linear-gradient(150deg,var(--gold),#b8811f);
-  display:grid;place-items:center;flex:none}
-.brand .mark span{display:block;width:12px;height:2px;background:#0b0c0f;box-shadow:0 -4px 0 #0b0c0f,0 4px 0 #0b0c0f;border-radius:2px}
+.brand .mark{width:34px;height:34px;display:block;flex:none}
+.brand .mark img{display:block;width:34px;height:34px;object-fit:contain}
 .brand small{display:block;font-weight:400;font-size:11px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;margin-top:-3px}
 nav.links{display:flex;align-items:center;gap:26px}
 nav.links a{color:var(--ink-2);text-decoration:none;font-size:14.5px;font-weight:500}
@@ -214,7 +213,7 @@ body.case-open #home{display:none}
 <header class="nav">
   <div class="wrap nav-in">
     <a class="brand" href="#top" onclick="goHome()">
-      <span class="mark"><span></span></span>
+      <span class="mark"><img src="enigma-logo.png" alt="" aria-hidden="true"></span>
       <span>Enigma Solutions<small>Automation &amp; systems</small></span>
     </a>
     <nav class="links" id="navlinks">
