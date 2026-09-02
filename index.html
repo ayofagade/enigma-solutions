@@ -52,6 +52,9 @@ header.nav{position:sticky;top:0;z-index:50;backdrop-filter:blur(12px);
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-weight:700;letter-spacing:-.2px}
 .brand .mark{width:34px;height:34px;display:block;flex:none}
 .brand .mark img{display:block;width:34px;height:34px;object-fit:contain}
+.brand .mark.fallback{border-radius:9px;background:linear-gradient(150deg,var(--gold),#b8811f);position:relative}
+.brand .mark.fallback::after{content:"";position:absolute;left:9px;top:16px;width:16px;height:2px;border-radius:2px;
+  background:#0b0c0f;box-shadow:0 -5px 0 #0b0c0f,0 5px 0 #0b0c0f}
 .brand small{display:block;font-weight:400;font-size:11px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase;margin-top:-3px}
 nav.links{display:flex;align-items:center;gap:26px}
 nav.links a{color:var(--ink-2);text-decoration:none;font-size:14.5px;font-weight:500}
@@ -87,11 +90,36 @@ h1 em{font-style:normal;color:var(--gold)}
 .stats span{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-top:5px}
 
 /* sections */
-section{padding:76px 0;border-top:1px solid var(--line)}
+section{padding:76px 0;border-top:1px solid var(--line);scroll-margin-top:80px}
+[id]{scroll-margin-top:80px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
 .sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:36px;flex-wrap:wrap}
 .kicker{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink-3)}
 h2{font-size:clamp(26px,3.4vw,36px);line-height:1.14;letter-spacing:-1.1px;margin:10px 0 0;font-weight:700;max-width:20ch}
 .sec-head p{margin:0;color:var(--ink-2);max-width:46ch;font-size:15.5px}
+
+/* mock UI window chrome */
+.ui-frame{border:1px solid var(--line-2);border-radius:11px;overflow:hidden;background:#0f1116}
+.ui-bar{display:flex;align-items:center;gap:10px;padding:9px 12px;background:#171a22;border-bottom:1px solid var(--line-2)}
+.ui-bar .dots{display:flex;gap:5px;flex:none}
+.ui-bar .dots i{width:8px;height:8px;border-radius:50%;background:#3a4050;display:block}
+.ui-bar .t{font-size:11.5px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;
+  font-family:'JetBrains Mono',ui-monospace,monospace}
+.ui-bar .b{font-size:9.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--gold);
+  border:1px solid rgba(232,180,74,.32);background:rgba(232,180,74,.08);padding:3px 8px;border-radius:999px;flex:none}
+.ui-body{padding:14px;background:#0f1116}
+.ui-body svg{display:block;width:100%;height:auto}
+
+/* full-width technology block */
+.tech-block{margin-top:44px}
+.tech-block h3{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin:0 0 14px}
+/* grouped technology panel */
+.techs{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--panel)}
+.techs .row{display:grid;grid-template-columns:118px 1fr;gap:14px;padding:13px 16px;border-bottom:1px solid var(--line);align-items:start}
+.techs .row:last-child{border-bottom:none}
+.techs .k{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);padding-top:5px}
+.techs .v{display:flex;flex-wrap:wrap;gap:7px}
+@media (max-width:520px){.techs .row{grid-template-columns:1fr;gap:8px}.techs .k{padding-top:0}}
 
 /* work cards */
 .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
@@ -198,6 +226,18 @@ body.case-open #home{display:none}
   .hero{padding-top:60px;padding-bottom:46px}
   section{padding:58px 0}
 }
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  *{transition:none !important;animation:none !important}
+  .btn:hover,.card:hover{transform:none}
+}
+@media print{
+  header.nav,.hero-cta,form,.next-case,.menu-toggle{display:none !important}
+  body{background:#fff;color:#000}
+}
+.js-off{display:none}
+html.nojs .js-off{display:block}
+html.nojs #workgrid{display:none}
 @media (max-width:520px){
   .eyebrow{font-size:11px}
   h1{letter-spacing:-1.2px}
@@ -212,7 +252,7 @@ body.case-open #home{display:none}
 <header class="nav">
   <div class="wrap nav-in">
     <a class="brand" href="#top" onclick="goHome()">
-      <span class="mark"><img src="enigma-logo.png" alt="" aria-hidden="true"></span>
+      <span class="mark"><img src="enigma-logo.png" alt="" aria-hidden="true" onerror="var p=this.parentNode;this.remove();if(p)p.classList.add('fallback')"></span>
       <span>Enigma Solutions<small>Automation &amp; systems</small></span>
     </a>
     <nav class="links" id="navlinks">
@@ -259,6 +299,20 @@ body.case-open #home{display:none}
     <p>Client and employer names are withheld and every interface shown is an illustrative mockup built for this site. No real data appears anywhere on this page.</p>
   </div>
   <div class="grid" id="workgrid"></div>
+  <noscript>
+    <div class="techs" style="padding:22px 24px">
+      <p style="margin:0 0 12px;color:var(--ink-2)">Case studies need JavaScript to open. The work covers:
+      a one-click CRM enrichment product, a 200,000 record migration and dedupe pipeline, a Slack
+      out-of-office approval flow, contract-to-Dynamics invoicing intake, multilingual inbound routing,
+      a five-brand revenue dashboard, an eighteen-tool data cleaning toolkit, and five live automations
+      for a UK media and PR agency.</p>
+      <p style="margin:0;color:var(--ink-2)">Email <a href="mailto:tannaayo@gmail.com" style="color:var(--gold)">tannaayo@gmail.com</a> and I will send the detail.</p>
+    </div>
+  </noscript>
+  <div class="js-off techs" style="padding:22px 24px;margin-top:20px">
+    <p style="margin:0;color:var(--ink-2)">The case studies could not load. Email
+    <a href="mailto:tannaayo@gmail.com" style="color:var(--gold)">tannaayo@gmail.com</a> and I will send them over directly.</p>
+  </div>
 </div>
 </section>
 
@@ -454,9 +508,6 @@ function shotEnrich(h){var gid="g"+(++_uid);return `
  <defs><linearGradient id="${gid}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e8b44a"/><stop offset="1" stop-color="#b8811f"/></linearGradient></defs>
  <rect width="640" height="${h||300}" rx="10" fill="#0f1116"/>
  <rect x="1" y="1" width="638" height="${(h||300)-2}" rx="10" fill="none" stroke="#242833"/>
- <rect x="0" y="0" width="640" height="34" rx="10" fill="#161922"/><rect x="0" y="24" width="640" height="10" fill="#161922"/>
- <circle cx="18" cy="17" r="4" fill="#3a4050"/><circle cx="32" cy="17" r="4" fill="#3a4050"/><circle cx="46" cy="17" r="4" fill="#3a4050"/>
- <rect x="70" y="11" width="150" height="12" rx="6" fill="#242833"/>
  <!-- left: record -->
  <rect x="16" y="48" width="330" height="${(h||300)-64}" rx="8" fill="#14161d" stroke="#242833"/>
  <circle cx="46" cy="80" r="16" fill="#242833"/><text x="46" y="85" font-family="Inter,sans-serif" font-size="12" fill="#7c8494" text-anchor="middle">JD</text>
@@ -617,25 +668,60 @@ function shotToolkit(h){return `
 </svg>`;}
 
 function shotAgency(h){return `
-<svg viewBox="0 0 640 ${h||300}" role="img" aria-label="Illustrative mockup of an AI-assisted content and outreach pipeline">
- <rect width="640" height="${h||300}" rx="10" fill="#0f1116"/>
- <rect x="1" y="1" width="638" height="${(h||300)-2}" rx="10" fill="none" stroke="#242833"/>
- <text x="20" y="30" font-family="Inter,sans-serif" font-size="12" fill="#eef0f4" font-weight="600">Content &amp; outreach pipeline</text>
- <g font-family="Inter,sans-serif" font-size="9.5">
-  <rect x="20" y="52" width="112" height="58" rx="8" fill="#14161d" stroke="#242833"/><text x="76" y="78" fill="#b8bfcc" text-anchor="middle">Brief in</text><text x="76" y="94" fill="#7c8494" text-anchor="middle" font-size="8.5">form / inbox</text>
-  <rect x="152" y="52" width="112" height="58" rx="8" fill="#14161d" stroke="#e8b44a" stroke-opacity=".5"/><text x="208" y="78" fill="#e8b44a" text-anchor="middle">Draft</text><text x="208" y="94" fill="#7c8494" text-anchor="middle" font-size="8.5">LLM + house voice</text>
-  <rect x="284" y="52" width="112" height="58" rx="8" fill="#14161d" stroke="#242833"/><text x="340" y="78" fill="#b8bfcc" text-anchor="middle">Human review</text><text x="340" y="94" fill="#7c8494" text-anchor="middle" font-size="8.5">approve / edit</text>
-  <rect x="416" y="52" width="112" height="58" rx="8" fill="#14161d" stroke="#242833"/><text x="472" y="78" fill="#b8bfcc" text-anchor="middle">Schedule</text><text x="472" y="94" fill="#7c8494" text-anchor="middle" font-size="8.5">queue + send</text>
-  <rect x="548" y="52" width="72" height="58" rx="8" fill="#14161d" stroke="#242833"/><text x="584" y="78" fill="#5fd3a3" text-anchor="middle">Log</text><text x="584" y="94" fill="#7c8494" text-anchor="middle" font-size="8.5">CRM</text>
-  <path d="M132 81 H150 M264 81 H282 M396 81 H414 M528 81 H546" stroke="#2f3441" stroke-width="1.6"/>
+<svg viewBox="0 0 640 ${h||300}" role="img" aria-label="Illustrative mockup of a weekly revenue post and a ranked inbox digest">
+ <rect width="640" height="${h||300}" rx="8" fill="#0f1116"/>
+ <!-- left: weekly revenue post -->
+ <rect x="8" y="8" width="300" height="${(h||300)-16}" rx="8" fill="#14161d" stroke="#242833"/>
+ <text x="24" y="30" font-family="Inter,sans-serif" font-size="10" fill="#e8b44a" letter-spacing="1">WEEKLY REVENUE POST</text>
+ <text x="24" y="48" font-family="Inter,sans-serif" font-size="11" fill="#b8bfcc">Monday 08:00 · built in ~2.3s</text>
+ <g>
+  <rect x="24" y="62" width="128" height="46" rx="6" fill="#191c24" stroke="#242833"/>
+  <text x="36" y="80" font-family="Inter,sans-serif" font-size="8" fill="#7c8494" letter-spacing=".8">THIS WEEK</text>
+  <text x="36" y="99" font-family="Inter,sans-serif" font-size="15" font-weight="700" fill="#eef0f4">+12.4%</text>
+  <rect x="164" y="62" width="128" height="46" rx="6" fill="#191c24" stroke="#242833"/>
+  <text x="176" y="80" font-family="Inter,sans-serif" font-size="8" fill="#7c8494" letter-spacing=".8">VS TARGET</text>
+  <text x="176" y="99" font-family="Inter,sans-serif" font-size="15" font-weight="700" fill="#5fd3a3">on track</text>
  </g>
- <rect x="20" y="132" width="600" height="${(h||300)-152}" rx="8" fill="#14161d" stroke="#242833"/>
- <text x="36" y="156" font-family="Inter,sans-serif" font-size="10" fill="#7c8494">Follow-up queue</text>
- <g font-family="Inter,sans-serif" font-size="9.5" fill="#b8bfcc">
-  <rect x="36" y="168" width="568" height="24" rx="5" fill="#191c24"/><text x="50" y="184">Outlet A · feature pitch</text><text x="560" y="184" fill="#5fd3a3" text-anchor="end">sent · day 0</text>
-  <rect x="36" y="198" width="568" height="24" rx="5" fill="#191c24"/><text x="50" y="214">Outlet B · follow-up 1</text><text x="560" y="214" fill="#e8b44a" text-anchor="end">queued · day 3</text>
-  <rect x="36" y="228" width="568" height="24" rx="5" fill="#191c24"/><text x="50" y="244">Outlet C · reply detected</text><text x="560" y="244" fill="#6aa9f0" text-anchor="end">paused · human</text>
+ <text x="24" y="130" font-family="Inter,sans-serif" font-size="9" fill="#7c8494">24 charts filed by week</text>
+ <g opacity=".9">
+  <rect x="24" y="140" width="60" height="40" rx="4" fill="#191c24" stroke="#242833"/>
+  <rect x="32" y="164" width="8" height="10" fill="#e8b44a"/><rect x="44" y="156" width="8" height="18" fill="#e8b44a" opacity=".7"/><rect x="56" y="150" width="8" height="24" fill="#e8b44a" opacity=".85"/><rect x="68" y="160" width="8" height="14" fill="#e8b44a" opacity=".5"/>
+  <rect x="92" y="140" width="60" height="40" rx="4" fill="#191c24" stroke="#242833"/>
+  <polyline points="100,172 112,164 124,168 136,150 146,146" fill="none" stroke="#6aa9f0" stroke-width="1.8" stroke-linecap="round"/>
+  <rect x="160" y="140" width="60" height="40" rx="4" fill="#191c24" stroke="#242833"/>
+  <rect x="168" y="158" width="8" height="16" fill="#5fd3a3" opacity=".8"/><rect x="180" y="150" width="8" height="24" fill="#5fd3a3" opacity=".6"/><rect x="192" y="162" width="8" height="12" fill="#5fd3a3" opacity=".9"/><rect x="204" y="154" width="8" height="20" fill="#5fd3a3" opacity=".5"/>
+  <rect x="228" y="140" width="64" height="40" rx="4" fill="#191c24" stroke="#242833"/>
+  <text x="260" y="165" font-family="Inter,sans-serif" font-size="11" fill="#7c8494" text-anchor="middle">+20</text>
  </g>
+ <text x="24" y="204" font-family="Inter,sans-serif" font-size="10" fill="#7c8494">Forecast model</text>
+ <g font-family="JetBrains Mono,monospace" font-size="8.5">
+  <rect x="24" y="212" width="62" height="20" rx="4" fill="#191c24" stroke="#2f3441"/><text x="55" y="226" fill="#b8bfcc" text-anchor="middle">level</text>
+  <rect x="92" y="212" width="62" height="20" rx="4" fill="#191c24" stroke="#2f3441"/><text x="123" y="226" fill="#b8bfcc" text-anchor="middle">trend</text>
+  <rect x="160" y="212" width="62" height="20" rx="4" fill="#191c24" stroke="#2f3441"/><text x="191" y="226" fill="#b8bfcc" text-anchor="middle">season</text>
+  <rect x="228" y="212" width="64" height="20" rx="4" fill="#191c24" stroke="#e8b44a" stroke-opacity=".5"/><text x="260" y="226" fill="#e8b44a" text-anchor="middle">uplift</text>
+ </g>
+ <text x="24" y="252" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#5fd3a3">0 manual steps in the weekly cycle</text>
+ <text x="24" y="268" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#7c8494">seasonality switches to own pattern at 4 quarters</text>
+ <!-- right: ranked inbox digest -->
+ <rect x="320" y="8" width="312" height="${(h||300)-16}" rx="8" fill="#14161d" stroke="#242833"/>
+ <text x="336" y="30" font-family="Inter,sans-serif" font-size="10" fill="#e8b44a" letter-spacing="1">INBOX DIGEST · RANKED</text>
+ <text x="336" y="48" font-family="Inter,sans-serif" font-size="11" fill="#b8bfcc">Daily · nothing moved or marked read</text>
+ <g font-family="Inter,sans-serif">
+  <rect x="336" y="60" width="280" height="52" rx="6" fill="#191c24" stroke="#5fd3a3" stroke-opacity=".4"/>
+  <text x="350" y="78" font-size="9.5" fill="#eef0f4">Contract for signature · named client</text>
+  <text x="350" y="94" font-size="8" font-family="JetBrains Mono,monospace" fill="#7c8494">talent +60 · contract +55 · direct +15</text>
+  <rect x="566" y="70" width="38" height="18" rx="9" fill="#5fd3a3"/><text x="585" y="83" font-size="9" font-weight="700" fill="#0b0c0f" text-anchor="middle">130</text>
+  <rect x="336" y="120" width="280" height="52" rx="6" fill="#191c24" stroke="#242833"/>
+  <text x="350" y="138" font-size="9.5" fill="#eef0f4">Fee query · deadline this week</text>
+  <text x="350" y="154" font-size="8" font-family="JetBrains Mono,monospace" fill="#7c8494">money +55 · time pressure +20 · brand +25</text>
+  <rect x="566" y="130" width="38" height="18" rx="9" fill="#e8b44a"/><text x="585" y="143" font-size="9" font-weight="700" fill="#0b0c0f" text-anchor="middle">100</text>
+  <rect x="336" y="180" width="280" height="52" rx="6" fill="#191c24" stroke="#242833"/>
+  <text x="350" y="198" font-size="9.5" fill="#7c8494">Newsletter · bulk sender</text>
+  <text x="350" y="214" font-size="8" font-family="JetBrains Mono,monospace" fill="#7c8494">bulk −60 · platform notification −40</text>
+  <rect x="566" y="190" width="38" height="18" rx="9" fill="#242833"/><text x="585" y="203" font-size="9" font-weight="700" fill="#7c8494" text-anchor="middle">−100</text>
+ </g>
+ <text x="336" y="252" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#7c8494">out-of-office and auto-acks discarded, not scored</text>
+ <text x="336" y="268" font-family="JetBrains Mono,monospace" font-size="8.5" fill="#7c8494">names read live from the pipeline</text>
 </svg>`;}
 
 function shotOOO(h){return `
@@ -708,7 +794,12 @@ var CASES = [
    "Enrichment spend became visible and controllable for the first time.",
    "Data quality on new contacts improved because enrichment now happens at the point of entry."
   ],
-  stack:["Custom UI extension","Serverless functions","REST APIs","Provider waterfall","Approval workflow","Audit logging"]
+  stack:{
+   Languages:["JavaScript","JSON"],
+   Platforms:["HubSpot (UI extensions, serverless)","Power Automate"],
+   Integrations:["Cognism API","Clay API","REST APIs","Slack / Teams approvals"],
+   Techniques:["Provider waterfall","Per-user credit budgets","Preview before spend","Audit trail","Automatic write-back"]
+  }
  },
  {
   id:"migration",
@@ -732,7 +823,12 @@ var CASES = [
    "Segmentation and industry data became consistent enough to build campaigns on.",
    "The matching logic was reused for later imports instead of being a one-off script."
   ],
-  stack:["Python","Pandas","Fuzzy matching","Confidence scoring","Rules engine","Rollback / audit fields"]
+  stack:{
+   Languages:["Python","Pandas"],
+   Platforms:["HubSpot CRM"],
+   Integrations:["REST APIs","Bulk import pipeline"],
+   Techniques:["Fuzzy matching","Confidence scoring","Merge logic with rollback","Rules-engine segmentation","Cross-platform industry mapping"]
+  }
  },
  {
   id:"ooo",
@@ -754,7 +850,12 @@ var CASES = [
    "Approved OOO is written to the calendar automatically.",
    "The process removes the need to re-enter approved leave by hand."
   ],
-  stack:["Slack Webhook","Approval workflow","make.com","Calendar API","Automation"]
+  stack:{
+   Languages:["JSON"],
+   Platforms:["Slack","Outlook Calendar","Monday.com"],
+   Integrations:["Slack interactive actions","Calendar API","Board API"],
+   Techniques:["Signed approval actions","Allowance tracking","End-to-end audit trail"]
+  }
  },
  {
   id:"contract-invoicing",
@@ -776,7 +877,12 @@ var CASES = [
    "The record is populated with the information needed to progress toward invoicing.",
    "The process creates a cleaner handoff between contracts and finance operations."
   ],
-  stack:["Contract intake","Dynamics 365","Field mapping","Workflow automation","Finance operations"]
+  stack:{
+   Languages:["Python","JSON"],
+   Platforms:["Dynamics 365","Power Automate"],
+   Integrations:["Contract intake","CRM write-back"],
+   Techniques:["Document field extraction","Field mapping","Validation before write","Finance handoff"]
+  }
  },
  {
   id:"routing",
@@ -799,7 +905,12 @@ var CASES = [
    "Opt-outs processed automatically instead of relying on someone remembering.",
    "The routing layer became the template for 25 to 35 further automation flows."
   ],
-  stack:["Power Automate","Classification rules","REST APIs","CRM sync","Alerting"]
+  stack:{
+   Languages:["JSON"],
+   Platforms:["Power Automate","Outlook","HubSpot"],
+   Integrations:["Mail API","CRM API","Alerting channel"],
+   Techniques:["Language detection","Intent classification","Bounce and out-of-office detection","Fallback review queue","GDPR unsubscribe handling"]
+  }
  },
  {
   id:"dashboard",
@@ -822,7 +933,12 @@ var CASES = [
    "Trend data available for the first time, because history is now stored rather than replaced.",
    "Leadership decisions made on current numbers instead of last week's."
   ],
-  stack:["Python (custom code)","Power Automate","REST APIs","QuickChart","Scheduled reporting"]
+  stack:{
+   Languages:["Python"],
+   Platforms:["HubSpot custom code","Power Automate","Power BI"],
+   Integrations:["REST APIs","QuickChart","Scheduled distribution"],
+   Techniques:["Cross-brand normalisation","Historical snapshotting","Week-on-week deltas","Automated KPI reporting"]
+  }
  },
  {
   id:"toolkit",
@@ -844,39 +960,86 @@ var CASES = [
    "Turnaround on imports and list prep dropped from days to minutes.",
    "The same toolkit now underpins migration and matching work on client projects."
   ],
-  stack:["Python","Pandas","Streamlit","Fuzzy matching","Validation"],
+  stack:{
+   Languages:["Python","Pandas"],
+   Platforms:["Streamlit"],
+   Integrations:["CSV and Excel import/export"],
+   Techniques:["Deduplication","Fuzzy matching","E.164 standardisation","Domain and email parsing","Validation","Bulk transforms"]
+  },
   link:{href:"https://ayosdatatoolkit.streamlit.app",label:"Open the live toolkit"}
  },
- {
+  {
   id:"agency",
   tag:"Freelance · UK media &amp; PR agency",
-  title:"AI-assisted content and outreach for a media agency",
-  card:"A pipeline that drafts in the agency's own voice, keeps a human in the approval seat, and handles the follow-up sequence that kept getting forgotten.",
-  cardMetrics:[["Make.com","+ Anthropic API"],["Human","approval step"],["Auto","follow-ups"]],
+  title:"Five automations running an agency's commercial week",
+  card:"Weekly revenue reporting, quarterly forecasting, a ranked inbox digest, leave approvals and monthly KPI alerts. Five separate automations, all live on real data, with no manual step left in the weekly cycle.",
+  cardMetrics:[["5","automations live"],["24","charts per report"],["0","manual steps weekly"]],
   shot:shotAgency,
-  facts:[["1","Person-shaped bottleneck removed"],["Human","In the approval seat"],["Auto","Follow-up sequencing"],["Make.com","+ Anthropic API"]],
-  problem:"A small media and PR team was drafting every pitch and every follow-up from scratch, tracking who had been contacted in their heads and in a spreadsheet. Good opportunities lapsed simply because nobody got round to the second email.",
+  facts:[["5","Automations live"],["24","Charts per report"],["~2.3s","To build a full report"],["0","Manual steps weekly"]],
+  problem:"A small agency was running its whole commercial week by hand. Revenue figures were rebuilt off the deal board every Monday morning. Quarterly targets were a flat average, which treats a quiet first quarter and a strong recent one as equally useful. And the inbox was triaged by whoever opened it first, so contracts and money sat underneath newsletters, platform notifications and cold outreach.",
   approach:[
-   "Briefs come in through a single intake, so there is one place work starts rather than four inboxes.",
-   "LLM drafting tuned to the agency's own voice and formats, producing a first draft rather than a finished send.",
-   "An explicit human review step. Nothing goes out without a person approving it, which is the difference between useful AI and embarrassing AI.",
-   "Automated follow-up sequencing that pauses the moment a real reply is detected.",
-   "Everything logged so the team can see what was sent, to whom and when."
+   "<b>Weekly revenue and targets reporting.</b> Reads every deal, builds 24 charts, writes the week's figures to a reporting board and posts the summary to Slack. A full report builds in around 2.3 seconds and charts are filed by week so the team can scroll back through history.",
+   "<b>Quarterly forecasting on a real model.</b> Replaced the flat average with four multiplied parts: a run rate that weights recent quarters more heavily, a damped trend so one strong quarter cannot run away with the forecast, seasonality stripped out before the trend is measured and added back after, and an uplift figure the client controls.",
+   "<b>Seasonality that learns.</b> The seasonal profile starts from published national advertising spend and switches to the agency's own pattern automatically once it has four complete quarters of its own. Three quarters produced nonsense in testing, so the switch is gated on four.",
+   "<b>A non-destructive inbox digest.</b> Every inbound message is scored on weighted commercial signals: a named client, money, a contract or signature, time pressure, whether it was sent to a person or a mailing list. One ranked digest is posted daily with a link to each email. Nothing is moved, filed or marked read, and each item shows the reasons it scored the way it did.",
+   "<b>Names read live from the pipeline.</b> Sign a new client and their email ranks higher the next morning, with nobody editing a rule.",
+   "<b>Leave approvals and monthly KPI alerts.</b> Requests collected off the board and sent to Slack for one-click approval that writes the calendar, plus a monthly check of each agent against their target and prospect count that names anyone tracking behind.",
+   "<b>A data quality audit alongside the build</b>, surfacing missing owner and creation dates that were silently zeroing out the client's own weekly and monthly figures."
   ],
   result:[
-   "Drafting time cut sharply, with the team editing rather than starting from a blank page.",
-   "Follow-ups stopped depending on somebody remembering.",
-   "The agency kept full editorial control, which was the condition for using AI at all."
+   "Five automations live on real data, with zero manual steps left in the weekly reporting cycle.",
+   "Forecasting moved from a flat average to a seasonally adjusted, trend-damped model the client steers with a single uplift number.",
+   "Commercially urgent mail surfaces daily without the automation touching the mailbox, which was the client's condition for using it at all.",
+   "A name-normalisation fix applied at the point the data is read corrected earnings that had been splitting across two spellings of the same person, which corrected every chart at once.",
+   "Reporting gaps in the client's own records were identified and handed back with the effect of each one quantified."
   ],
-  stack:["Make.com","Anthropic API","Webhooks","Structured output","CRM logging"]
+  stack:{
+   Languages:["Python","JSON"],
+   Platforms:["Make.com","Monday.com","Slack","Outlook"],
+   Integrations:["Anthropic API","Slack API","Calendar API","Board APIs","Webhooks"],
+   Techniques:["Weighted signal scoring","Damped trend forecasting","Seasonal adjustment","Name normalisation","Non-destructive processing","Scheduled reporting"]
+  }
  }
 ];
 
+/* ---------------- mockup framing ---------------- */
+var SHOT_LABELS = {
+  enrichment:"crm / contact-record — enrichment panel",
+  migration:"migration-run / dedupe-report",
+  ooo:"slack / out-of-office approval",
+  "contract-invoicing":"contract intake → dynamics 365",
+  routing:"inbound routing / classifier",
+  dashboard:"revenue intelligence / all brands",
+  toolkit:"data toolkit / deduplicate",
+  agency:"agency automations / weekly cycle"
+};
+function frameShot(c, h){
+  return '<div class="ui-frame">'
+    + '<div class="ui-bar"><span class="dots"><i></i><i></i><i></i></span>'
+    + '<span class="t">'+(SHOT_LABELS[c.id]||'interface')+'</span>'
+    + '<span class="b">Mockup</span></div>'
+    + '<div class="ui-body">'+c.shot(h)+'</div></div>';
+}
+function renderStack(stack){
+  if(Object.prototype.toString.call(stack) === '[object Array]'){
+    stack = { Stack: stack };
+  }
+  var rows = '';
+  for(var k in stack){
+    if(!Object.prototype.hasOwnProperty.call(stack,k)) continue;
+    rows += '<div class="row"><div class="k">'+k+'</div><div class="v">'
+         + stack[k].map(function(t){return '<span class="chip">'+t+'</span>';}).join('')
+         + '</div></div>';
+  }
+  return '<div class="techs">'+rows+'</div>';
+}
+
 /* ---------------- render work grid ---------------- */
 var grid = document.getElementById('workgrid');
+try{
 grid.innerHTML = CASES.map(function(c){
   return '<a class="card" href="#/case/'+c.id+'">'
-    + '<div class="shot">'+c.shot(300)+'</div>'
+    + '<div class="shot">'+frameShot(c,300)+'</div>'
     + '<div class="body">'
     + '<div class="tag">'+c.tag+'</div>'
     + '<h3>'+c.title+'</h3>'
@@ -885,6 +1048,10 @@ grid.innerHTML = CASES.map(function(c){
     + '<div class="more">Read the case study <span class="arr">→</span></div>'
     + '</div></a>';
 }).join('');
+}catch(err){
+  document.documentElement.className += ' nojs';
+  if(window.console && console.error) console.error('work grid failed to render', err);
+}
 
 /* ---------------- case study routing ---------------- */
 function renderCase(c){
@@ -895,15 +1062,15 @@ function renderCase(c){
   + '<div class="case-hero"><span class="tag">'+c.tag+'</span>'
   + '<h1>'+c.title+'</h1><p class="lede">'+c.card+'</p></div>'
   + '<div class="case-facts">'+c.facts.map(function(f){return '<div><b>'+f[0]+'</b><span>'+f[1]+'</span></div>';}).join('')+'</div>'
-  + '<div class="shot-frame">'+c.shot(300)+'</div>'
-  + '<p class="shot-cap">Illustrative mockup built for this site. Not a real interface, not real data.</p>'
+  + frameShot(c,300)
+  + '<p class="shot-cap" style="margin-top:10px">Illustrative mockup built for this site. Not a real interface, not real data.</p>'
   + '<div class="case-body" style="margin-top:44px">'
   + '<div><h3>The problem</h3><p>'+c.problem+'</p>'
   + '<h3 style="margin-top:28px">What I built</h3><ul>'+c.approach.map(function(a){return '<li>'+a+'</li>';}).join('')+'</ul></div>'
   + '<div><h3>The outcome</h3><ul>'+c.result.map(function(r){return '<li>'+r+'</li>';}).join('')+'</ul>'
-  + '<h3 style="margin-top:28px">Built with</h3><div class="stack">'+c.stack.map(function(s){return '<span class="chip">'+s+'</span>';}).join('')+'</div>'
   + (c.link ? '<p style="margin-top:24px"><a class="btn btn-ghost" href="'+c.link.href+'" target="_blank" rel="noopener">'+c.link.label+' ↗</a></p>' : '')
   + '</div></div>'
+  + '<div class="tech-block"><h3>Technology used</h3>'+renderStack(c.stack)+'</div>'
   + '<div class="next-case"><div><div class="kicker">Next case study</div>'
   + '<h2 style="font-size:24px;margin-top:8px">'+next.title+'</h2></div>'
   + '<a class="btn btn-primary" href="#/case/'+next.id+'">Read it <span class="arr">→</span></a></div>'
@@ -926,9 +1093,17 @@ function route(){
       return;
     }
   }
+  if(m && window.history && history.replaceState){
+    history.replaceState(null,'','#work');
+  }
   document.body.classList.remove('case-open');
   view.classList.remove('on');
 }
+document.addEventListener('keydown', function(e){
+  if(e.key === 'Escape' && document.body.classList.contains('case-open')){
+    location.hash = '#work';
+  }
+});
 function goHome(anchor){
   document.getElementById('navlinks').classList.remove('open');
   if(document.body.classList.contains('case-open')){
@@ -949,6 +1124,8 @@ route();
 document.getElementById('contactForm').addEventListener('submit', function(e){
   e.preventDefault();
   var f = e.target, s = document.getElementById('formStatus');
+  var btn = f.querySelector('button[type=submit]');
+  if(btn && btn.disabled) return;
   var data = {
     name: f.elements['name'].value, email: f.elements['email'].value,
     topic: f.elements['topic'].value, message: f.elements['message'].value
@@ -961,6 +1138,7 @@ document.getElementById('contactForm').addEventListener('submit', function(e){
     return;
   }
   s.className='status'; s.textContent='Sending...';
+  if(btn){ btn.disabled = true; btn.style.opacity = '.6'; }
   fetch(FORM_ENDPOINT,{
     method:'POST',
     headers:{'Accept':'application/json','Content-Type':'application/json'},
@@ -971,6 +1149,8 @@ document.getElementById('contactForm').addEventListener('submit', function(e){
   }).catch(function(){
     s.className='status err';
     s.textContent='That didn\'t send. Email '+CONTACT_EMAIL+' and I\'ll pick it up there.';
+  }).then(function(){
+    if(btn){ btn.disabled = false; btn.style.opacity = '1'; }
   });
 });
 </script>
